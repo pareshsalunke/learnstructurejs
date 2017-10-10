@@ -73,4 +73,11 @@ class Queue {
     peek() {
         return this._storage[this._tail];
     }
+
+    contains(value) {
+        for(let i=this._head;i< this._tail; i++) {
+            let isPresent = this._storage[i] === value ? true : false;
+        }
+        return isPresent;
+    }
 }
