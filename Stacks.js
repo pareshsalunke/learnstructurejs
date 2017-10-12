@@ -25,7 +25,6 @@ myStack.count()
 @class Stack
 params capacity
 **/
-
 class Stack {
     constructor(capacity) {
         this._capacity = capacity || Infinity;
@@ -59,13 +58,14 @@ class Stack {
         return this._count;
     }
 }
+module.exports = Stack;
 
-var myStack = new Stack(3);
-console.log(myStack.push('a'), 'should be 1');
-console.log(myStack.push('b'), 'should be 2');
-console.log(myStack.push('c'), 'should be 3');
-console.log(myStack.push('d'), 'should be Max capacity reached');
-console.log(myStack.pop(), 'should be c');
-console.log(myStack.count(), 'should be 2');
-console.log(myStack.peek(), 'should be b');
-console.log(myStack.count(), 'should be 2');
+// var myStack = new Stack(3);
+// console.log(myStack.push('a'), 'should be 1');
+// console.log(myStack.push('b'), 'should be 2');
+// console.log(myStack.push('c'), 'should be 3');
+// console.log(myStack.push('d'), 'should be Max capacity reached');
+// console.log(myStack.pop(), 'should be c');
+// console.log(myStack.count(), 'should be 2');
+// console.log(myStack.peek(), 'should be b');
+// console.log(myStack.count(), 'should be 2');
