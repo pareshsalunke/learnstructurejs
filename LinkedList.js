@@ -58,8 +58,44 @@ class Node {
 }
 
 class LinkedList {
-    constructor() {
-        this._storage = new Node();
-        this.head =
+    constructor(headValue) {
+        if(this.headValue === undefined) console.log('Must provide value for first node');
+        this.head = new Node(headValue);
+        this.tail = this.head;
     }
+
+    forEach(cb) {
+        let node = this.head;
+        while(node) {
+            cb(node.value);
+            node = node.next;
+        }
+    }
+
+    print() {
+        let result = [];
+
+        this.forEach(value => {
+            result.push(value);
+        });
+        return result.join(', ');
+    }
+
+    insertAfter(node, value) {
+        // get reference to former next
+        let oldNext = node.next;
+        // loop to get the reference of node before
+        let newNext = new Node(value);
+        // change to new reference = old reference
+        newNext.next = oldNext;
+        // update the old node reference to new reference 
+        oldNext = newNext;
+        // return the node
+        return newNext;
+    }
+
+    removeAfter(node) {
+        // 
+    }
+
 }
