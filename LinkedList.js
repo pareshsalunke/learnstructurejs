@@ -51,31 +51,32 @@ Reimplement stack and queue data structures using linked lists.
  */
 
 class Node {
-    constructor(data) {
-        this.data = data;
+    constructor(value) {
+        this.value = value;
         this.next = null;
     }
 }
 
 class LinkedList {
     constructor(headValue) {
-        if(this.headValue === undefined) console.log('Must provide value for first node');
+        if(headValue === undefined) {
+            console.log('Must provide value for first node');
+        }
         this.head = new Node(headValue);
         this.tail = this.head;
     }
 
-    forEach(cb) {
+    forEach(callback) {
         let node = this.head;
         while(node) {
-            cb(node.value);
+            callback(node.value);
             node = node.next;
         }
     }
 
     print() {
         let result = [];
-
-        this.forEach(value => {
+        this.forEach((value) => {
             result.push(value);
         });
         return result.join(', ');
@@ -83,19 +84,99 @@ class LinkedList {
 
     insertAfter(node, value) {
         // get reference to former next
-        let oldNext = node.next;
-        // loop to get the reference of node before
-        let newNext = new Node(value);
-        // change to new reference = old reference
+        var oldNext = node.next;
+        // create new node
+        var newNext = new Node(value);
+        // store it as the new next
+        node.next = newNext;
+        // set next for the new node to be the old next
         newNext.next = oldNext;
-        // update the old node reference to new reference 
-        oldNext = newNext;
-        // return the node
+        // if reference node is tail, set tail to newNext
+        if (this.tail === node) this.tail = newNext;
         return newNext;
     }
 
     removeAfter(node) {
-        // 
+        // store reference to removed node
+        let removedNode = node.next;
+
+        // if node is tail, then there's nothing to remove
+        if (!removedNode) return "Nothing to remove";
+        //get reference to new reference after removed node
+        let newNext = removedNode.next;
+        // set newNext as the next node
+        node.next = newNext;
+        // remove reference from removed node to linked list
+        removedNode.next = null;
+        //update tail if removed Node was last node in LL
+        if(removedNode === this.tail) this.tail = node;
+        return removedNode;
+    }
+
+    insertHead (value) {
+        // create new Head node
+        let newHead = new Node(value);
+        //link new head to old head
+        newHead.next = this.head;
+        // update head to new head
+        this.head = newHead; 
+        return newHead; 
+    }
+
+    removeHead() {
+        let removedHead = this.head;
+        let newHead = removedHead.next;
+        this.head = newHead;
+        removedHead.next = null;
+        return removedHead;
+    }
+
+    findNode(value) {
+        let node = this.head;
+
+        while(node) {
+            if(node.value === value) {
+                return node;
+            }
+            node = node.next;
+        }
+        return 'No node with value: ' + value + ' found.';
+    }
+
+    appendToTail(value) {
+        // create node to append to tail
+        let newNode = new Node(value);
+        //old tail reference 
+        let oldTail = this.tail;
+        // Link old tail to new node to append
+        oldTail.next = newNode;
+        // Update tail to new Node
+        this.tail = newNode;
+        return newNode;
     }
 
 }
+
+var myList = new LinkedList(0);
+
+console.log(myList.print(), 'should be 0');
+console.log(myList.insertAfter(myList.head, 1), 'should be 1');
+console.log(myList.print(), 'should be 0, 1');
+console.log(myList.insertAfter(myList.head.next, 3), 'should be 3');
+console.log(myList.print(), 'should be 0, 1, 3');
+console.log(myList.insertAfter(myList.head.next, 2), 'should be 2');
+console.log(myList.print(), 'should be 0, 1, 2, 3');
+console.log(myList.removeAfter(myList.head), 'should be 1');
+console.log(myList.print(), 'should be 0, 2, 3');
+console.log(myList.insertHead(-1), 'should be -1');
+console.log(myList.print(), 'should be -1, 0, 2, 3');
+console.log(myList.removeHead(), 'should be -1');
+console.log(myList.print(), 'should be 0, 2, 3');
+console.log(myList.appendToTail(4), 'should be 4');
+console.log(myList.print(), 'should be 0, 2, 3, 4');
+console.log(myList.findNode(0) === myList.head, 'should be true');
+console.log(myList.findNode(3) === myList.head.next.next, 'should be true');
+myList.insertAfter(myList.findNode(2), 2.5);
+console.log(myList.print(), 'should be 0, 2, 2.5, 3, 4');
+myList.removeAfter(myList.findNode(2));
+console.log(myList.print(), 'should be 0, 2, 3, 4');
